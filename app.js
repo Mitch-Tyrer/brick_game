@@ -55,6 +55,11 @@ function mouseMoveHandler(e) {
     if(relativeX > 0 && relativeX < canvas.width){
         paddleX = relativeX - paddleWidth/2;
     }
+    if (relativeX && paddleX < canvas.width - paddleWidth) {
+        paddleX += 5;
+    } else if (relativeX && paddleX > 0) {
+        paddleX -= 5;
+    }
 }
 
 
