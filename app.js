@@ -112,5 +112,3 @@ function draw() {
         paddleX -= 5;
     }
 }
-
-
