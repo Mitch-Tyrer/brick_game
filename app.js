@@ -10,8 +10,8 @@ var canvas = document.getElementById("myCanvas"),
     paddleX = (canvas.width - paddleWidth) / 2,
     rightPressed = false,
     leftPressed = false,
-    interval = setInterval(draw, 10),
-    score = 0;
+    score = 0,
+    lives = 3;
 // brick variables
 var brickRowCount = 3,
     brickColumnCount = 5,
@@ -52,8 +52,8 @@ function keyUpHandler(e) {
 
 function mouseMoveHandler(e) {
     var relativeX = e.clientX - canvas.offsetLeft;
-    if(relativeX > 0 && relativeX < canvas.width){
-        paddleX = relativeX - paddleWidth/2;
+    if (relativeX > 0 && relativeX < canvas.width) {
+        paddleX = relativeX - paddleWidth / 2;
     }
 }
 
@@ -73,10 +73,10 @@ function collisionDetection() {
                     dy = -dy;
                     b.status = 0;
                     score++;
-                    if(score == brickRowCount*brickColumnCount){
+                    if (score == brickRowCount * brickColumnCount) {
                         alert("YOU WIN!");
                         document.location.reload();
-                        clearInterval(interval);
+                        
                     }
                 }
             }
@@ -87,7 +87,13 @@ function collisionDetection() {
 function drawScore() {
     ctx.font = "16px Arial";
     ctx.fillStyle = "#0095DD";
-    ctx.fillText("Score: " +score, 8, 20);
+    ctx.fillText("Score: " + score, 8, 20);
+}
+
+function drawLives() {
+    ctx.font = "16px Arial";
+    ctx.fillStyle = "#0095DD";
+    ctx.fillText("Lives: " + lives, canvas.width - 65, 20);
 }
 
 function drawBall() {
@@ -133,6 +139,7 @@ function draw() {
     drawPaddle();
     drawBricks();
     drawScore();
+    drawLives();
     collisionDetection();
     x += dx;
     y += dy;
@@ -147,11 +154,22 @@ function draw() {
         if (x > paddleX && x < paddleX + paddleWidth) {
             dy = -dy;
         } else {
-            alert("GAME OVER");
-            document.location.reload();
-            clearInterval(interval);
+            lives--;
+            if (!lives) {
+                alert("GAME OVER MAN!");
+                document.location.reload();
+                
+            } else {
+                x = canvas.width / 2;
+                y = canvas.height - 30;
+                dx = 2;
+                dy = -2
+                paddleX = (canvas.width - paddleWidth) / 2;
+            }
         }
     }
+
+    requestAnimationFrame(draw);
 
     if (rightPressed && paddleX < canvas.width - paddleWidth) {
         paddleX += 5;
@@ -159,3 +177,5 @@ function draw() {
         paddleX -= 5;
     }
 }
+
+draw();
