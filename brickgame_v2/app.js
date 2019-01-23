@@ -1,6 +1,8 @@
 var canvas = document.getElementById("myCanvas"),
     ctx = canvas.getContext("2d"),
     start = document.getElementById("startBtn"),
+    tryAgain = document.getElementById("try-again"),
+    gameOver = document.getElementById("gameOver"),
     x = canvas.width / 2,
     y = canvas.height - 30,
     dx = 2,
@@ -32,8 +34,14 @@ for (var c = 0; c < brickColumnCount; c++) {
     }
 }
 
-document.getElementById("startBtn").addEventListener('click', function (){
+start.addEventListener('click', function (){
     document.getElementById("startScreen").hidden = true;
+    canvas.hidden = false;
+    init();
+})
+
+tryAgain.addEventListener('click', function (){
+    document.getElementById("gameOver").hidden = true;
     canvas.hidden = false;
     init();
 })
@@ -94,8 +102,17 @@ function collisionDetection() {
 
 function init(){
     if(canvas.hidden === false){
+        clearCanvas();
         draw();
 }
+
+function clearCanvas () {
+    canvas = document.getElementById("myCanvas");
+    ctx = canvas.getContext("2d");
+    ctx.setTransform(1, 0, 0, 1, 0, 0);
+    ctx.clearRect(0,0, canvas.width, canvas.height);
+}
+
 
 function drawScore() {
     ctx.font = "16px Arial";
@@ -169,8 +186,11 @@ function draw() {
         } else {
             lives--;
             if (!lives) {
-                alert("GAME OVER MAN!");
-                document.location.reload();
+                clearCanvas();
+                bricks = [];
+                canvas.hidden = true;
+                gameOver.hidden = false;
+
                 
             } else {
                 x = canvas.width / 2;
