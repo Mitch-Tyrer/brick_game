@@ -1,5 +1,6 @@
 var canvas = document.getElementById("myCanvas"),
     ctx = canvas.getContext("2d"),
+    start = document.getElementById("startBtn"),
     x = canvas.width / 2,
     y = canvas.height - 30,
     dx = 2,
@@ -12,6 +13,7 @@ var canvas = document.getElementById("myCanvas"),
     leftPressed = false,
     score = 0,
     lives = 3;
+
 // brick variables
 var brickRowCount = 3,
     brickColumnCount = 5,
@@ -29,6 +31,12 @@ for (var c = 0; c < brickColumnCount; c++) {
         bricks[c][r] = { x: 0, y: 0, status: 1 };
     }
 }
+
+document.getElementById("startBtn").addEventListener('click', function (){
+    document.getElementById("startScreen").hidden = true;
+    canvas.hidden = false;
+    init();
+})
 
 document.addEventListener("keydown", keyDownHandler, false);
 document.addEventListener("keyup", keyUpHandler, false);
@@ -82,6 +90,11 @@ function collisionDetection() {
             }
         }
     }
+}
+
+function init(){
+    if(canvas.hidden === false){
+        draw();
 }
 
 function drawScore() {
@@ -178,4 +191,4 @@ function draw() {
     }
 }
 
-draw();
+}

@@ -7,16 +7,22 @@
     	* { padding: 0; margin: 0; }
     	canvas { background: #eee; display: block; margin: 0 auto; }
         #startScreen {padding: 0; margin: 0; height: 320px; width: 480px; ; background: #eee; display: block; margin: 0 auto;}
+        #gameOver {padding: 0; margin: 0; height: 320px; width: 480px; ; background: #eee; display: block; margin: 0 auto;}
     </style>
      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 </head>
 <body>
     <div id="startScreen" class="container text-center">
         <h1 style="color: #0095DD">BREAKOUT!</h1>
-        <button class="btn btn-primary btn-lg">START</button>
+        <button id="startBtn" class="btn btn-primary btn-lg">START</button>
     </div>
 
 <canvas id="myCanvas" width="480" height="320" hidden></canvas>
+
+<div id="gameOver" class="container text-center" hidden>
+    <h1 style="color: #0095DD">Game Over!</h1>
+    <button class="btn btn-primary btn-lg">Try again?</button>
+</div>
 
 
 
