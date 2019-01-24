@@ -3,10 +3,10 @@ var canvas = document.getElementById("myCanvas"),
     start = document.getElementById("startBtn"),
     tryAgain = document.getElementById("try-again"),
     gameOver = document.getElementById("gameOver"),
-    x = canvas.width / 2,
-    y = canvas.height - 30,
-    dx = 2,
-    dy = -2,
+    x = 0,
+    y = 0,
+    dx = 0,
+    dy = 0,
     ballRadius = 10,
     paddleHeight = 10,
     paddleWidth = 75,
@@ -27,24 +27,37 @@ var brickRowCount = 3,
 
 
 var bricks = [];
-for (var c = 0; c < brickColumnCount; c++) {
-    bricks[c] = [];
-    for (var r = 0; r < brickRowCount; r++) {
-        bricks[c][r] = { x: 0, y: 0, status: 1 };
+
+function brickInit() {
+    for (var c = 0; c < brickColumnCount; c++) {
+        bricks[c] = [];
+        for (var r = 0; r < brickRowCount; r++) {
+            bricks[c][r] = { x: 0, y: 0, status: 1 };
+        }
     }
 }
+
+function retry () {
+    /* document.location.reload(); */
+    document.getElementById("startScreen").hidden = true;
+    canvas.hidden = false;
+    clearCanvas();
+    init();
+
+}
+
 
 start.addEventListener('click', function (){
     document.getElementById("startScreen").hidden = true;
     canvas.hidden = false;
     init();
-})
+});
 
 tryAgain.addEventListener('click', function (){
     document.getElementById("gameOver").hidden = true;
     canvas.hidden = false;
-    init();
-})
+    retry();
+});
 
 document.addEventListener("keydown", keyDownHandler, false);
 document.addEventListener("keyup", keyUpHandler, false);
@@ -100,18 +113,7 @@ function collisionDetection() {
     }
 }
 
-function init(){
-    if(canvas.hidden === false){
-        clearCanvas();
-        draw();
-}
 
-function clearCanvas () {
-    canvas = document.getElementById("myCanvas");
-    ctx = canvas.getContext("2d");
-    ctx.setTransform(1, 0, 0, 1, 0, 0);
-    ctx.clearRect(0,0, canvas.width, canvas.height);
-}
 
 
 function drawScore() {
@@ -186,18 +188,13 @@ function draw() {
         } else {
             lives--;
             if (!lives) {
-                clearCanvas();
-                bricks = [];
+                reset();
                 canvas.hidden = true;
                 gameOver.hidden = false;
 
                 
             } else {
-                x = canvas.width / 2;
-                y = canvas.height - 30;
-                dx = 2;
-                dy = -2
-                paddleX = (canvas.width - paddleWidth) / 2;
+                reset();
             }
         }
     }
@@ -209,6 +206,34 @@ function draw() {
     } else if (leftPressed && paddleX > 0) {
         paddleX -= 5;
     }
+}
+
+
+
+
+
+function clearCanvas () {
+    ctx.clearRect(0,0, canvas.width, canvas.height);
+    bricks = [];
+    brickInit();
+    score = 0;
+    lives = 3;
+    
+}
+
+function reset () {
+    x = canvas.width / 2;
+    y = canvas.height - 30;
+    dx = 2;
+    dy = -2
+    paddleX = (canvas.width - paddleWidth) / 2;
+}
+
+function init(){
+    if(canvas.hidden === false){
+        brickInit();
+        reset();
+        draw();
 }
 
 }
